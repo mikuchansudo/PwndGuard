@@ -20,7 +20,6 @@ def check_password_strength(password):
     feedback = []
     details = {}
 
-    # Length scoring
     details['length'] = length
     if length >= 12:
         score += 2
@@ -31,7 +30,6 @@ def check_password_strength(password):
     else:
         feedback.append("Length: Too short (<8 chars)")
 
-    # Character type scoring
     details['uppercase'] = has_upper
     if has_upper:
         score += 1
@@ -60,7 +58,7 @@ def check_password_strength(password):
     else:
         feedback.append("Special: Missing")
 
-    # Entropy estimate (simplified)
+    # Entropy calculation
     pool = 0
     if has_lower: pool += 26
     if has_upper: pool += 26
@@ -69,9 +67,34 @@ def check_password_strength(password):
     entropy = length * math.log2(pool) if pool > 0 else 0
     details['entropy'] = round(entropy, 2)
 
+    # Crack time estimate (10 billion guesses/second)
+    guesses_per_second = 10_000_000_000
+    seconds_to_crack = (2 ** entropy) / guesses_per_second if entropy > 0 else 0
+    details['crack_time'] = format_crack_time(seconds_to_crack)
+
     strength = "Weak" if score < 3 else "Moderate" if score < 5 else "Strong"
     details['score'] = score
     return strength, feedback, details
+
+def format_crack_time(seconds):
+    if seconds < 1:
+        return "Less than 1 second"
+    elif seconds < 60:
+        return f"{int(seconds)} seconds"
+    elif seconds < 3600:
+        minutes = int(seconds / 60)
+        return f"{minutes} minute{'s' if minutes != 1 else ''}"
+    elif seconds < 86400:
+        hours = int(seconds / 3600)
+        return f"{hours} hour{'s' if hours != 1 else ''}"
+    elif seconds < 31536000:
+        days = int(seconds / 86400)
+        return f"{days} day{'s' if days != 1 else ''}"
+    else:
+        years = int(seconds / 31536000)
+        if years > 1000000:
+            return "Millions of years"
+        return f"{years} year{'s' if years != 1 else ''}"
 
 def check_breached_password(password):
     sha1_hash = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
