@@ -18,7 +18,7 @@ PwndGuard tests password strength, checks breaches via HaveIBeenPwned, and sugge
 3. Run: `python app.py`
 
 ## Deployment
-On Render: [Live URL](#)
+On Render: [https://pwndguard.onrender.com/](#)
 
 ## License
 MIT—see [LICENSE](LICENSE)
