@@ -8,21 +8,21 @@
         body {
             font-family: 'VT323', monospace;
             background: #0a0a0a;
-            color: #00FF00;
+            color: #33CC33; /* Subtle hacker green */
             max-width: 800px;
             margin: 40px auto;
             padding: 20px;
-            border: 2px solid #00FF00;
+            border: 2px solid #33CC33;
             border-radius: 5px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 20px rgba(51, 204, 51, 0.2);
             background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
         }
         h1 {
-            color: #00FF00;
+            color: #33CC33;
             text-align: center;
             font-size: 3em;
             margin-bottom: 30px;
-            text-shadow: 0 0 15px #00FF00;
+            text-shadow: 0 0 10px #33CC33;
             animation: glitch 2s infinite;
         }
         @keyframes glitch {
@@ -37,18 +37,18 @@
         }
         label {
             font-size: 1.5em;
-            color: #00CC00;
-            text-shadow: 0 0 5px #00FF00;
+            color: #339933; /* Slightly darker green */
+            text-shadow: 0 0 5px #33CC33;
         }
         input[type="text"] {
             padding: 15px;
             font-size: 1.2em;
             font-family: 'VT323', monospace;
-            border: 2px solid #00FF00;
+            border: 2px solid #33CC33;
             border-radius: 5px;
             background: #151515;
-            color: #00FF00;
-            box-shadow: 0 0 10px #00FF00;
+            color: #33CC33;
+            box-shadow: 0 0 10px #33CC33;
             transition: all 0.3s;
         }
         input[type="text"]:focus {
@@ -60,29 +60,29 @@
             padding: 15px;
             font-size: 1.2em;
             font-family: 'VT323', monospace;
-            background: #00FF00;
+            background: #33CC33;
             color: #0a0a0a;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-shadow: 0 0 5px #000;
-            box-shadow: 0 0 15px #00FF00;
+            box-shadow: 0 0 15px #33CC33;
             transition: all 0.3s;
         }
         input[type="submit"]:hover {
-            background: #00CC00;
-            box-shadow: 0 0 25px #00CC00;
+            background: #339933;
+            box-shadow: 0 0 25px #339933;
         }
         .result {
             margin-top: 40px;
             padding: 20px;
             background: #151515;
-            border: 1px solid #00FF00;
+            border: 1px solid #33CC33;
             border-radius: 5px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 15px rgba(51, 204, 51, 0.2);
             font-size: 1.2em;
         }
-        .strong { color: #00FF66; text-shadow: 0 0 10px #00FF66; }
+        .strong { color: #66FF66; text-shadow: 0 0 10px #66FF66; }
         .moderate { color: #FFCC00; text-shadow: 0 0 10px #FFCC00; }
         .weak { color: #FF3366; text-shadow: 0 0 10px #FF3366; }
         ul {
@@ -97,16 +97,16 @@
             margin-top: 30px;
             padding: 20px;
             background: #1a1a1a;
-            border: 1px dashed #00FF00;
+            border: 1px dashed #33CC33;
             border-radius: 5px;
-            color: #00FF00;
-            text-shadow: 0 0 10px #00FF00;
+            color: #33CC33;
+            text-shadow: 0 0 10px #33CC33;
             font-size: 1.3em;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 15px rgba(51, 204, 51, 0.2);
         }
         h3 {
-            color: #00FF00;
-            text-shadow: 0 0 10px #00FF00;
+            color: #33CC33;
+            text-shadow: 0 0 10px #33CC33;
             margin-bottom: 15px;
         }
     </style>
@@ -114,8 +114,8 @@
 <body>
     <h1>PwndGuard</h1>
     <form method="POST">
-        <label for="password">[*] Target Password:</label>
-        <input type="text" id="password" name="password" required placeholder="Enter your code...">
+        <label for="password">Password Input:</label>
+        <input type="text" id="password" name="password" required placeholder="Type your password...">
         <input type="submit" value="[RUN ANALYSIS]">
     </form>
 
