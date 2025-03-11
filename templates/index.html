@@ -4,101 +4,129 @@
     <meta charset="UTF-8">
     <title>PwndGuard</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #1a1a1a;
-            color: #e0e0e0;
-            max-width: 700px;
-            margin: 50px auto;
+            font-family: 'VT323', monospace;
+            background: #0a0a0a;
+            color: #00FF00;
+            max-width: 800px;
+            margin: 40px auto;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 2px solid #00FF00;
+            border-radius: 5px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
         }
         h1 {
-            color: #00ccff;
+            color: #00FF00;
             text-align: center;
-            font-size: 2.5em;
+            font-size: 3em;
             margin-bottom: 30px;
-            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+            text-shadow: 0 0 15px #00FF00;
+            animation: glitch 2s infinite;
+        }
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(-2px, 2px); }
+            20%, 40%, 60%, 80% { transform: translate(2px, -2px); }
         }
         form {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
         label {
-            font-size: 1.2em;
-            color: #b0b0b0;
+            font-size: 1.5em;
+            color: #00CC00;
+            text-shadow: 0 0 5px #00FF00;
         }
         input[type="text"] {
-            padding: 12px;
-            font-size: 1.1em;
-            border: 2px solid #333;
-            border-radius: 8px;
-            background: #2a2a2a;
-            color: #e0e0e0;
-            transition: border-color 0.3s;
+            padding: 15px;
+            font-size: 1.2em;
+            font-family: 'VT323', monospace;
+            border: 2px solid #00FF00;
+            border-radius: 5px;
+            background: #151515;
+            color: #00FF00;
+            box-shadow: 0 0 10px #00FF00;
+            transition: all 0.3s;
         }
         input[type="text"]:focus {
-            border-color: #00ccff;
+            border-color: #00CCFF;
+            box-shadow: 0 0 20px #00CCFF;
             outline: none;
         }
         input[type="submit"] {
-            padding: 12px;
-            font-size: 1.1em;
-            background: #00ccff;
-            color: #1a1a1a;
+            padding: 15px;
+            font-size: 1.2em;
+            font-family: 'VT323', monospace;
+            background: #00FF00;
+            color: #0a0a0a;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s;
+            text-shadow: 0 0 5px #000;
+            box-shadow: 0 0 15px #00FF00;
+            transition: all 0.3s;
         }
         input[type="submit"]:hover {
-            background: #0099cc;
+            background: #00CC00;
+            box-shadow: 0 0 25px #00CC00;
         }
         .result {
-            margin-top: 30px;
+            margin-top: 40px;
             padding: 20px;
-            background: #252525;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            background: #151515;
+            border: 1px solid #00FF00;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            font-size: 1.2em;
         }
-        .strong { color: #00ff66; }
-        .moderate { color: #ffcc00; }
-        .weak { color: #ff3366; }
+        .strong { color: #00FF66; text-shadow: 0 0 10px #00FF66; }
+        .moderate { color: #FFCC00; text-shadow: 0 0 10px #FFCC00; }
+        .weak { color: #FF3366; text-shadow: 0 0 10px #FF3366; }
         ul {
             list-style: none;
             padding: 0;
         }
         li {
-            padding: 5px 0;
-            font-size: 1.1em;
+            padding: 8px 0;
+            font-size: 1.2em;
         }
         .suggestion {
-            margin-top: 20px;
-            padding: 15px;
-            background: #333;
-            border-radius: 8px;
-            color: #00ff66;
+            margin-top: 30px;
+            padding: 20px;
+            background: #1a1a1a;
+            border: 1px dashed #00FF00;
+            border-radius: 5px;
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+            font-size: 1.3em;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        h3 {
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
     <h1>PwndGuard</h1>
     <form method="POST">
-        <label for="password">Enter Your Password:</label>
-        <input type="text" id="password" name="password" required>
-        <input type="submit" value="Analyze">
+        <label for="password">[*] Target Password:</label>
+        <input type="text" id="password" name="password" required placeholder="Enter your code...">
+        <input type="submit" value="[RUN ANALYSIS]">
     </form>
 
     {% if result %}
     <div class="result">
-        <h3>Analysis Results</h3>
+        <h3>[+] Analysis Output</h3>
         <p>Strength: <span class="{{ result.strength.lower() }}">{{ result.strength }}</span></p>
-        <p>Breach Status: {{ result.breach_msg }}</p>
-        <p>Details:</p>
+        <p>Breach Scan: {{ result.breach_msg }}</p>
+        <p>System Data:</p>
         <ul>
-            <li>Length: {{ result.details.length }} characters</li>
+            <li>Length: {{ result.details.length }} chars</li>
             <li>Score: {{ result.details.score }}/5</li>
             <li>Entropy: {{ result.details.entropy }} bits</li>
             <li>Crack Time: {{ result.details.crack_time }}</li>
@@ -108,7 +136,7 @@
             <li>Special Chars: {{ 'Yes' if result.details.special else 'No' }}</li>
         </ul>
         {% if result.feedback %}
-        <p>Feedback:</p>
+        <p>Weakness Report:</p>
         <ul>
             {% for item in result.feedback %}
             <li>{{ item }}</li>
@@ -120,8 +148,8 @@
 
     {% if suggestion %}
     <div class="suggestion">
-        <h3>Secure Suggestion</h3>
-        <p>Try this: <strong>{{ suggestion }}</strong></p>
+        <h3>[!] Secure Payload</h3>
+        <p>Deploy this: <strong>{{ suggestion }}</strong></p>
     </div>
     {% endif %}
 </body>
