@@ -8,7 +8,7 @@
         body {
             font-family: 'VT323', monospace;
             background: #0a0a0a;
-            color: #33CC33; /* Subtle hacker green */
+            color: #33CC33;
             max-width: 800px;
             margin: 40px auto;
             padding: 20px;
@@ -37,7 +37,7 @@
         }
         label {
             font-size: 1.5em;
-            color: #339933; /* Slightly darker green */
+            color: #339933;
             text-shadow: 0 0 5px #33CC33;
         }
         input[type="text"] {
@@ -148,8 +148,8 @@
 
     {% if suggestion %}
     <div class="suggestion">
-        <h3>[!] Secure Payload</h3>
-        <p>Deploy this: <strong>{{ suggestion }}</strong></p>
+        <h3>Secure Password Suggestion</h3>
+        <p>Try this password: <strong>{{ suggestion }}</strong></p>
     </div>
     {% endif %}
 </body>
