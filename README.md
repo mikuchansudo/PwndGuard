@@ -24,4 +24,4 @@ On Render: [Live URL](#)
 MIT—see [LICENSE](LICENSE)
 
 ## Credits
-By [Your Name]
+By Miku Chan
