@@ -5,10 +5,10 @@ import hashlib
 import requests
 import secrets
 import string
+import math
 
 app = Flask(__name__)
 
-# Check password strength
 def check_password_strength(password):
     length = len(password)
     has_upper = bool(re.search(r'[A-Z]', password))
@@ -18,23 +18,61 @@ def check_password_strength(password):
 
     score = 0
     feedback = []
+    details = {}
 
-    if length >= 12: score += 2
-    elif length >= 8: score += 1
-    else: feedback.append("Too short (min 8, 12+ best).")
-    if has_upper: score += 1
-    else: feedback.append("Add uppercase.")
-    if has_lower: score += 1
-    else: feedback.append("Add lowercase.")
-    if has_digit: score += 1
-    else: feedback.append("Add numbers.")
-    if has_special: score += 1
-    else: feedback.append("Add special chars (e.g., !@#$).")
+    # Length scoring
+    details['length'] = length
+    if length >= 12:
+        score += 2
+        feedback.append("Length: Excellent (12+ chars)")
+    elif length >= 8:
+        score += 1
+        feedback.append("Length: Good (8-11 chars)")
+    else:
+        feedback.append("Length: Too short (<8 chars)")
+
+    # Character type scoring
+    details['uppercase'] = has_upper
+    if has_upper:
+        score += 1
+        feedback.append("Uppercase: Yes")
+    else:
+        feedback.append("Uppercase: Missing")
+    
+    details['lowercase'] = has_lower
+    if has_lower:
+        score += 1
+        feedback.append("Lowercase: Yes")
+    else:
+        feedback.append("Lowercase: Missing")
+    
+    details['digits'] = has_digit
+    if has_digit:
+        score += 1
+        feedback.append("Digits: Yes")
+    else:
+        feedback.append("Digits: Missing")
+    
+    details['special'] = has_special
+    if has_special:
+        score += 1
+        feedback.append("Special: Yes")
+    else:
+        feedback.append("Special: Missing")
+
+    # Entropy estimate (simplified)
+    pool = 0
+    if has_lower: pool += 26
+    if has_upper: pool += 26
+    if has_digit: pool += 10
+    if has_special: pool += 32
+    entropy = length * math.log2(pool) if pool > 0 else 0
+    details['entropy'] = round(entropy, 2)
 
     strength = "Weak" if score < 3 else "Moderate" if score < 5 else "Strong"
-    return strength, feedback
+    details['score'] = score
+    return strength, feedback, details
 
-# Check if password was breached (HIBP API)
 def check_breached_password(password):
     sha1_hash = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
     prefix, suffix = sha1_hash[:5], sha1_hash[5:]
@@ -48,7 +86,6 @@ def check_breached_password(password):
                 return True, count
     return False, 0
 
-# Generate a strong password
 def generate_password():
     alphabet = string.ascii_letters + string.digits + string.punctuation
     return ''.join(secrets.choice(alphabet) for _ in range(16))
@@ -60,10 +97,16 @@ def index():
     if request.method == 'POST':
         password = request.form.get('password', '')
         if password:
-            strength, feedback = check_password_strength(password)
+            strength, feedback, details = check_password_strength(password)
             breached, breach_count = check_breached_password(password)
             breach_msg = f"Found in {breach_count} breaches!" if breached else "No breaches found."
-            result = {'strength': strength, 'feedback': feedback, 'breached': breached, 'breach_msg': breach_msg}
+            result = {
+                'strength': strength,
+                'feedback': feedback,
+                'details': details,
+                'breached': breached,
+                'breach_msg': breach_msg
+            }
             if strength != "Strong" or breached:
                 suggestion = generate_password()
     return render_template('index.html', result=result, suggestion=suggestion)
