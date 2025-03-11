@@ -4,26 +4,108 @@
     <meta charset="UTF-8">
     <title>PwndGuard</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; }
-        .result { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
-        .strong { color: green; }
-        .moderate { color: orange; }
-        .weak { color: red; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            color: #00ccff;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-size: 1.2em;
+            color: #b0b0b0;
+        }
+        input[type="text"] {
+            padding: 12px;
+            font-size: 1.1em;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background: #2a2a2a;
+            color: #e0e0e0;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #00ccff;
+            outline: none;
+        }
+        input[type="submit"] {
+            padding: 12px;
+            font-size: 1.1em;
+            background: #00ccff;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        input[type="submit"]:hover {
+            background: #0099cc;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #252525;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        .strong { color: #00ff66; }
+        .moderate { color: #ffcc00; }
+        .weak { color: #ff3366; }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 5px 0;
+            font-size: 1.1em;
+        }
+        .suggestion {
+            margin-top: 20px;
+            padding: 15px;
+            background: #333;
+            border-radius: 8px;
+            color: #00ff66;
+        }
     </style>
 </head>
 <body>
     <h1>PwndGuard</h1>
     <form method="POST">
-        <label for="password">Enter password:</label><br>
+        <label for="password">Enter Your Password:</label>
         <input type="text" id="password" name="password" required>
         <input type="submit" value="Analyze">
     </form>
 
     {% if result %}
     <div class="result">
-        <h3>Results:</h3>
+        <h3>Analysis Results</h3>
         <p>Strength: <span class="{{ result.strength.lower() }}">{{ result.strength }}</span></p>
-        <p>Breach: {{ result.breach_msg }}</p>
+        <p>Breach Status: {{ result.breach_msg }}</p>
+        <p>Details:</p>
+        <ul>
+            <li>Length: {{ result.details.length }} characters</li>
+            <li>Score: {{ result.details.score }}/5</li>
+            <li>Entropy: {{ result.details.entropy }} bits</li>
+            <li>Uppercase: {{ 'Yes' if result.details.uppercase else 'No' }}</li>
+            <li>Lowercase: {{ 'Yes' if result.details.lowercase else 'No' }}</li>
+            <li>Digits: {{ 'Yes' if result.details.digits else 'No' }}</li>
+            <li>Special Chars: {{ 'Yes' if result.details.special else 'No' }}</li>
+        </ul>
         {% if result.feedback %}
         <p>Feedback:</p>
         <ul>
@@ -36,9 +118,9 @@
     {% endif %}
 
     {% if suggestion %}
-    <div class="result">
-        <h3>Suggestion:</h3>
-        <p>Try: <strong>{{ suggestion }}</strong></p>
+    <div class="suggestion">
+        <h3>Secure Suggestion</h3>
+        <p>Try this: <strong>{{ suggestion }}</strong></p>
     </div>
     {% endif %}
 </body>
