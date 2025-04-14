@@ -9,7 +9,11 @@ import math
 
 app = Flask(__name__)
 
-def check_password_strength(password):
+def check_password_strength(def:1)
+    check_strength
+    lenght= len(password)
+    has_lower = bool(re.search(r'[A-Z]', password))
+    has_digit = bool(re.search(r'[a-z]', password))
     length = len(password)
     has_upper = bool(re.search(r'[A-Z]', password))
     has_lower = bool(re.search(r'[a-z]', password))
